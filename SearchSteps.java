@@ -5,8 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -14,20 +13,18 @@ import io.cucumber.java.en.When;
 public class SearchSteps {
     WebDriver driver;
 
-    @Before
-    public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "D:\\chrome\\chromedriver.exe");
-        driver = new ChromeDriver();
-    }
-
     @Given("User is on Home Page")
     public void user_is_on_home_page() {
+        System.setProperty("webdriver.chrome.driver", "D:\\Training\\chrome\\chromedriver.exe");
+        driver = new ChromeDriver();
         driver.get("https://www.saucedemo.com/");
     }
 
     @When("User navigate to Login Page")
     public void user_navigate_to_login_page() {
-        // Already on the login page, nothing to navigate here
+    	System.setProperty("webdriver.chrome.driver", "D:\\Training\\chrome\\chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://www.saucedemo.com/");
     }
 
     @Then("User enters {string} and {string}")
@@ -41,19 +38,14 @@ public class SearchSteps {
         WebElement loginButton = driver.findElement(By.id("login-button"));
         loginButton.click();
     }
-
     @Then("Keeping case as Valid")
     public void keeping_case_as_valid() {
-        // This step ensures that the test keeps the case as valid,
-        // you may not need additional actions here since the username and password were already entered.
-        // If additional actions are needed, you can add them here.
+        
     }
 
     @Then("Keeping case as Invalid")
     public void keeping_case_as_invalid() {
-        // This step ensures that the test keeps the case as invalid,
-        // you may not need additional actions here since the username and password were already entered.
-        // If additional actions are needed, you can add them here.
+        
     }
 
     @Then("User should get logged in")
@@ -81,15 +73,22 @@ public class SearchSteps {
         }
     }
 
+    
+
     @Then("Provide correct credentials")
     public void provide_correct_credentials() {
-        user_enters_username_and_password("standard_user", "secret_sauce");
+    	 WebElement usernameField = driver.findElement(By.id("user-name"));
+         usernameField.sendKeys("standard_user");
+
+         WebElement passwordField = driver.findElement(By.id("password"));
+         passwordField.sendKeys("secret_sauce");
+
+         WebElement loginButton = driver.findElement(By.id("login-button"));
+         loginButton.click();
     }
 
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+    @Then("User closes the browser")
+    public void user_closes_the_browser() {
+        driver.quit();
     }
 }
